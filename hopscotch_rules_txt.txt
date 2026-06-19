@@ -1,0 +1,87 @@
+HOPSCOTCH - Complete Game Rules
+================================
+
+OVERVIEW
+--------
+Hopscotch is a classic outdoor game for 2 or more players. Players toss a marker onto a numbered grid drawn on the ground, then hop through the squares to retrieve it. The first player to complete the full course wins.
+
+
+MATERIALS NEEDED
+----------------
+- Chalk to draw the grid on pavement or concrete.
+- One small marker per player such as a stone, beanbag, or bottle cap.
+- A flat paved surface such as a sidewalk, driveway, or playground.
+
+
+SETTING UP THE BOARD
+--------------------
+Draw the following grid on the ground with chalk:
+- Square 1: single square at the bottom.
+- Squares 2 and 3: two side-by-side squares above square 1.
+- Square 4: single square above squares 2 and 3.
+- Squares 5 and 6: two side-by-side squares above square 4.
+- Square 7: single square above squares 5 and 6.
+- Squares 8 and 9: two side-by-side squares above square 7.
+- Square 10: large single square at the top. This is the Rest square.
+
+
+HOW TO PLAY
+-----------
+
+Step 1 - Toss the Marker
+The first player stands behind square 1 and tosses their marker onto square 1. The marker must land completely inside the square, not on a line and not outside the square.
+
+Step 2 - Hop Through the Grid
+Begin hopping from square 1, skipping the square where your marker landed. Single squares require one foot. Side-by-side squares require both feet simultaneously, one in each square. You must hop through every square in order from 1 to 10. You cannot step on the square where your marker is resting.
+
+Step 3 - Pick Up the Marker
+After reaching square 10, turn around and hop back toward square 1. When you reach the square just after your marker, pause, pick it up while balancing on one foot, then hop over that square to continue back.
+
+Step 4 - Complete the Turn
+Finish hopping back to the start. If you completed the turn successfully, on your next turn toss the marker onto square 2, and continue the pattern up through square 10.
+
+
+RULES - WHAT IS ALLOWED AND WHAT IS NOT
+----------------------------------------
+
+You LOSE your turn if:
+- Your marker lands on a line or outside the target square.
+- You step on a line.
+- You step on the square where your marker is resting.
+- You put both feet down on a single square.
+- You lose your balance and touch the ground with your hand or extra foot.
+- You hop out of order.
+
+You ARE allowed to:
+- Rest with both feet in square 10, the Rest square.
+- Take as much time as you need before tossing the marker.
+- Skip your turn and let others go if you need a break.
+
+
+HOW TO WIN
+----------
+The first player to successfully complete the full course, tossing the marker onto each square from 1 to 10 and hopping through without any mistakes, wins the game.
+
+
+VARIATIONS
+----------
+
+Classic Hopscotch - 2 to 4 players
+Players take turns. When a player makes a mistake, the next player takes their turn. The failed player must repeat the same square on their next turn.
+
+Speed Hopscotch
+Use a timer. Each player must complete the entire course as fast as possible. The player with the fastest time wins.
+
+Blind Hopscotch
+Players toss the marker without looking. Wherever it lands is the target for that turn, regardless of order. First to fill all squares wins.
+
+Team Hopscotch
+Divide players into two teams. Teams alternate turns. The team that completes the most squares before making 3 mistakes wins.
+
+
+TIPS FOR BEGINNERS
+------------------
+- Use a flat smooth stone as your marker as it slides less than round objects.
+- Practice hopping on one foot before playing to build balance.
+- Draw the squares large enough, about 12 by 12 inches each, so hopping feels comfortable.
+- Young children can play with fewer squares, from 1 to 6, to make the game easier.
