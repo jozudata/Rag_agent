@@ -1,0 +1,147 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "agentstats",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -656,
+        -112
+      ],
+      "id": "20ed42c6-e3ae-4484-95fe-af01efd40223",
+      "name": "Webhook",
+      "webhookId": "YOUR_WEBHOOK_ID"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -32,
+        -112
+      ],
+      "id": "e036c68c-fb2f-413a-9f82-90f5551be9a9",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list",
+          "cachedResultName": "Rag_db",
+          "cachedResultUrl": "https://airtable.com/YOUR_AIRTABLE_BASE_ID"
+        },
+        "table": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_TABLE_ID",
+          "mode": "list",
+          "cachedResultName": "Interactions",
+          "cachedResultUrl": "https://airtable.com/YOUR_AIRTABLE_BASE_ID/YOUR_AIRTABLE_TABLE_ID"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -464,
+        -112
+      ],
+      "id": "3fe53a17-6b9f-448e-ac88-008556da7de3",
+      "name": "Search records",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Fetch all records coming from the Airtable node securely using modern syntax\nconst items = $input.all();\n\nlet tableRows = '';\n// Initialize counters for the days of the week\nconst daysCount = { 'Lunedì': 0, 'Martedì': 0, 'Mercoledì': 0, 'Giovedì': 0, 'Venerdì': 0, 'Sabato': 0, 'Domenica': 0 };\nconst daysMapping = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];\n\n// Most requested topics counters\nlet rulesCount = 0;\nlet variantsCount = 0;\nlet generalCount = 0;\n\n// Loop through each item from Airtable\nfor (const item of items) {\n    const fields = item.json.fields;\n    if (!fields) continue;\n\n    const question = fields.Question || 'Senza domanda';\n    const answer = fields.Answer || 'Nessuna risposta fornita';\n    const dateStr = fields.Date;\n\n    // A. Build HTML table rows dynamically\n    tableRows += `<tr><td>${question}</td><td>${answer}</td></tr>`;\n\n    // B. Process the day of the week for the chart\n    if (dateStr) {\n        const dateObj = new Date(dateStr);\n        const dayName = daysMapping[dateObj.getDay()];\n        if (daysCount[dayName] !== undefined) {\n            daysCount[dayName]++;\n        }\n    }\n\n    // C. Classify topics based on keywords\n    const lowerQ = question.toLowerCase();\n    if (lowerQ.includes('vince') || lowerQ.includes('regole') || lowerQ.includes('gioca')) {\n        rulesCount++;\n    } else if (lowerQ.includes('varianti') || lowerQ.includes('tipi')) {\n        variantsCount++;\n    } else {\n        generalCount++;\n    }\n}\n\n// 2. Generate the final HTML template injecting the processed metrics\nconst htmlContent = `\n<!DOCTYPE html>\n<html lang=\"it\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Dashboard Analitica - Hopscotch</title>\n    <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n    <style>\n        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; background-color: #f8fafc; color: #334155; }\n        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }\n        h1 { color: #1e3a8a; border-bottom: 3px solid #3b82f6; padding-bottom: 10px; margin-top: 0; }\n        h2 { color: #1e40af; margin-top: 30px; }\n        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }\n        .card { background: #f1f5f9; padding: 15px; border-radius: 8px; }\n        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }\n        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }\n        th { background: #3b82f6; color: white; }\n        .chart-container { max-width: 450px; margin: auto; }\n        ul { padding-left: 20px; }\n        li { margin-bottom: 8px; }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>🎮 Dashboard RAG Agent - Hopscotch</h1>\n        \n        <div class=\"grid\">\n            <div class=\"card\">\n                <h2>📊 Temi più richiesti</h2>\n                <ul>\n                    <li><strong>Regole e Come Vince:</strong> ${rulesCount} richieste</li>\n                    <li><strong>Varianti del Gioco:</strong> ${variantsCount} richieste</li>\n                    <li><strong>Generale / Altro:</strong> ${generalCount} richieste</li>\n                </ul>\n            </div>\n            <div class=\"card\">\n                <h2>📈 Risposte per Giorno della Settimana</h2>\n                <div class=\"chart-container\">\n                    <canvas id=\"weeklyChartCanvas\"></canvas>\n                </div>\n            </div>\n        </div>\n\n        <h2>📜 Registro delle Risposte Raccolte</h2>\n        <table>\n            <thead>\n                <tr>\n                    <th>Domanda Utente</th>\n                    <th>Risposta Fornita</th>\n                </tr>\n            </thead>\n            <tbody>\n                ${tableRows}\n            </tbody>\n        </table>\n    </div>\n\n    <script>\n        const ctx = document.getElementById('weeklyChartCanvas').getContext('2d');\n        new Chart(ctx, {\n            type: 'bar',\n            data: {\n                labels: ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'],\n                datasets: [{\n                    label: 'Numero di Interazioni',\n                    data: [${daysCount['Lunedì']}, ${daysCount['Martedì']}, ${daysCount['Mercoledì']}, ${daysCount['Giovedì']}, ${daysCount['Venerdì']}, ${daysCount['Sabato']}, ${daysCount['Domenica']}],\n                    backgroundColor: '#3b82f6',\n                    borderRadius: 5\n                }]\n            },\n            options: {\n                responsive: true,\n                scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }\n            }\n        });\n    </script>\n</body>\n</html>\n`;\n\n// Return the structured JSON to the Respond to Webhook node\nreturn [{\n    json: {\n        html: htmlContent\n    }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        -112
+      ],
+      "id": "b3362479-e508-4aa2-a156-177e39cd9069",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "05f98194-39ca-48da-9823-29024563e2e6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "YOUR_N8N_INSTANCE_ID"
+  },
+  "nodeGroups": [],
+  "id": "90zywEEPscmoDFkS",
+  "tags": []
+}
